@@ -1,3 +1,4 @@
+const createStore = require('redux').createStore
 const expect = require('expect')
 const deepFreeze = require('deep-freeze')
 
@@ -20,6 +21,7 @@ const todo = (state, action) => {
 			return state
 	}
 }
+
 const todos = (state = [], action) => {
 	switch (action.type) {
 		case 'ADD_TODO':
@@ -93,6 +95,52 @@ const testToggleTodo = () => {
 		todos(stateBefore, action)
 	).toEqual(stateAfter)
 }
+
 testAddTodo()
 testToggleTodo()
 console.log('All tests passed')
+
+const visibilityFilter = ( state = 'SHOW_ALL', action) => {
+	switch (action.type) {
+		case 'SET_VISIBILITY_FILTER':
+			return action.filter
+		default:
+			return state
+	}
+}
+
+const todoApp = (state = {}, action) => {
+	return {
+		todos: todos(state.todos, action),
+		visibilityFilter: visibilityFilter(state.visibilityFilter, action)
+	}
+}
+
+const store = createStore(todoApp)
+console.log(store.getState())
+
+store.dispatch({
+	type: 'ADD_TODO',
+	id:0,
+	text: 'Learn Redux'
+})
+console.log(store.getState())
+
+store.dispatch({
+	type: 'ADD_TODO',
+	id:1,
+	text: 'Go Shopping'
+})
+console.log(store.getState())
+
+store.dispatch({
+	type: 'TOGGLE_TODO',
+	id: 0
+})
+console.log(store.getState())
+
+store.dispatch({
+	type: 'SET_VISIBILITY_FILTER',
+	filter: 'SHOW_COMPLETED'
+})
+console.log(store.getState())
