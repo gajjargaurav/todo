@@ -1,6 +1,7 @@
 import store from './store'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
 const Todo = ({onClick, completed, text}) => (
 	<li
@@ -171,19 +172,7 @@ class VisibleTodoList extends React.Component {
 VisibleTodoList.contextTypes = {
 	store: React.PropTypes.object
 }
-class Provider extends React.Component {
-	getChildContext(){
-		return {
-			store: this.props.store
-		}
-	}
-	render() {
-		return this.props.children
-	}
-}
-Provider.childContextTypes = {
-	store: React.PropTypes.object
-}
+
 let nextTodoId = 0
 const TodoApp = () => (
 	<div>
