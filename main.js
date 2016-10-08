@@ -3,7 +3,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import AddTodo from './addtodo'
-import { addTodo, setVisibilityFilter, toggleTodo } from './action-creators'
+import Footer from './footer'
+import { toggleTodo } from './action-creators'
+
 const Todo = ({onClick, completed, text}) => (
 	<li
 		onClick={onClick} style={{
@@ -27,29 +29,6 @@ const TodoList = ({todos, onTodoClick}) => (
 	</ul>
 )
 
-const Footer = () => (
-	<p>
-		Show: {' '}
-		<FilterLink
-			filter='SHOW_ALL'
-		>
-			All
-		</FilterLink>
-		{' '}
-		<FilterLink
-			filter='SHOW_ACTIVE'
-		>
-			Active
-		</FilterLink>
-		{' '}
-		<FilterLink
-			filter='SHOW_COMPLETED'
-		>
-			Completed
-		</FilterLink>
-	</p>
-)
-
 const getVisibleTodos = (todos, filter) => {
 	switch (filter) {
 		case 'SHOW_COMPLETED':
@@ -60,48 +39,6 @@ const getVisibleTodos = (todos, filter) => {
 			return todos
 	}
 }
-
-const Link = ({active, children, onClick}) => {
-	if (active) {
-		return <span>{children}</span>
-	}
-	return (
-		<a href='#' onClick={e => {
-			e.preventDefault()
-			onClick()
-		}}>
-			{children}
-		</a>
-	)
-}
-
-const mapStateToLinkProps = (
-	state,
-	ownProps
-) => {
-	return {
-		active:
-			ownProps.filter ===
-			state.visibilityFilter
-	}
-}
-const mapDispatchToLinkProps = (
-	dispatch,
-	ownProps
-) => {
-	return {
-		onClick: () => {
-			dispatch(
-				setVisibilityFilter(ownProps.filter)
-			)
-		}
-	}
-}
-const  FilterLink = connect(
-	mapStateToLinkProps,
-	mapDispatchToLinkProps
-)(Link)
-
 
 const mapStateToTodoListProps = (state) => {
 	return {
