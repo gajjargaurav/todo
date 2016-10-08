@@ -2,30 +2,7 @@ import store from './store'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-
-let nextTodoId = 0
-const addTodo = (text) => {
-	return {
-		type: 'ADD_TODO',
-		id: nextTodoId++,
-		text
-	}
-}
-
-const setVisibilityFilter = (filter) => {
-	return {
-		type: 'SET_VISIBILITY_FILTER',
-		filter
-	}
-}
-
-const toggleTodo = (id) => {
-	return {
-		type:'TOGGLE_TODO',
-		id
-	}
-}
-
+import { addTodo, setVisibilityFilter, toggleTodo } from './action-creators'
 const Todo = ({onClick, completed, text}) => (
 	<li
 		onClick={onClick} style={{
