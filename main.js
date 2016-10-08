@@ -2,6 +2,7 @@ import store from './store'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
+import AddTodo from './addtodo'
 import { addTodo, setVisibilityFilter, toggleTodo } from './action-creators'
 const Todo = ({onClick, completed, text}) => (
 	<li
@@ -25,24 +26,6 @@ const TodoList = ({todos, onTodoClick}) => (
 		)}
 	</ul>
 )
-
-let AddTodo = ({ dispatch }) => {
-	let input
-	return (
-		<div>
-			<input ref={node => {
-				input = node
-			}}/>
-			<button onClick={() => {
-				dispatch(addTodo(input.value))
-				input.value = ''
-			}}>
-				Add Todo
-			</button>
-		</div>
-	)
-}
-AddTodo = connect()(AddTodo)
 
 const Footer = () => (
 	<p>
