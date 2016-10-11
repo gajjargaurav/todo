@@ -27,19 +27,21 @@ const TodoList = ({todos, onTodoClick}) => (
 
 const getVisibleTodos = (todos, filter) => {
 	switch (filter) {
-		case 'SHOW_COMPLETED':
+		case 'all':
+			return todos
+		case 'completed':
 			return todos.filter(t => t.completed)
-		case 'SHOW_ACTIVE':
+		case 'active':
 			return todos.filter(t => !t.completed)
 		default:
-			return todos
+			throw new Error(`Unknow filter: ${filter}.`)
 	}
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
 	todos: getVisibleTodos(
 	state.todos,
-	state.visibilityFilter
+	ownProps.filter
 	)
 })
 const mapDispatchToProps = (dispatch) => ({
