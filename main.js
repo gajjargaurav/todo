@@ -1,23 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import todoApp from './reducers'
-import App from './components/App'
-import { loadState, saveState } from './localStorage'
-import throttle from 'lodash/throttle'
+import { render } from 'react-dom'
+import Root from './components/root';
+import configureStore from './configureStore'
 
-const persistedState = loadState()
+const store = configureStore()
 
-const store = createStore(
-	todoApp,
-	persistedState
-)
-
-store.subscribe(throttle(() => {
-	saveState({
-		todos: store.getState().todos
-	})
-}, 1000))
-
-ReactDOM.render(<Provider store={ store }><App/></Provider>, document.getElementById('app'))
+render(<Root store={store} />, document.getElementById('app'))
